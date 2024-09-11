@@ -1,18 +1,44 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
+    public static GameManager instance = null;
+    
+    [SerializeField]
+    private GameObject gameOverPanel;
+    [HideInInspector]
+    public bool isGameOver = false;
+
+    void Awake() {
+        if (instance == null) {
+            instance = this;
+        }
+    }
+
+    public void SetGameOver() {
+        isGameOver = true;
+        
+        Invoke(nameof(ShowGameOverPanel), 1f);
+    }
+
+    void ShowGameOverPanel() {
+        gameOverPanel.SetActive(true);
+    }
+
+    public void hasCollided(GameObject gameObject) {
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public void GetItem(GameObject gameObject) {
+        Character character = FindObjectOfType<Character>();
+        Item item = FindAnyObjectByType<Item>();
+
+        if (character != null) {
+            character.UpgradeItem(item);
+        }
     }
 }

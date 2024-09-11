@@ -48,4 +48,23 @@ public class Character : MonoBehaviour {
         //     transform.position = nextPosition;
         // }
     }
+
+    private void OnTriggerEnter2D(Collider2D other) {
+        if (other.gameObject.CompareTag("Obstacle")) {
+            Debug.Log("장애물과 충돌: " + other.gameObject.name );
+            // GameManager.instance.hasCollided(other.gameObject);
+        } else if (other.gameObject.CompareTag("Item")) {
+            Debug.Log("아이템과 충돌: " + other.gameObject.name );
+            // GameManager.instance.GetItem(other.gameObject);
+        }
+    }
+
+    public void UpgradeItem(Item item) {
+        string itemName = item.GetItemName();
+        if ( itemName == "Coin" ) {
+            Debug.Log("동전 획득");
+        } else if ( itemName == "Magnet" ) {
+            Debug.Log("자석 획득");
+        }
+    }
 }
