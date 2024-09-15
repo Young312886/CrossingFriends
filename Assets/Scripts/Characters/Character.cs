@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
+using UnityEditor.Tilemaps;
 using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 
-public class Character : MonoBehaviour {
+public class Character : MonoBehaviour
+{
     [SerializeField]
     private int unitMove = 1;
     [SerializeField]
@@ -15,56 +18,122 @@ public class Character : MonoBehaviour {
     private int minY = -10;
     [SerializeField]
     private int maxY = 10;
+    [SerializeField]
+
+    private SpriteRenderer spriteRenderer;
+    [SerializeField]
+    private Sprite spriteUp;
+    [SerializeField]
+    private Sprite spriteDown;
+    [SerializeField]
+    private Sprite spriteLeft;
+    [SerializeField]
+    private Sprite spriteRight;
+
+    [SerializeField]
+    private LayerMask obstacleLayer;
+
+    private int checkDistance = 1;
+    private Vector3 moveDirection;
     // Start is called before the first frame update
-    void Start() {
+    void Start()
+    {
 
     }
 
     // Update is called once per frame
-    void Update() {
-        Move();
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            Move();
+        }
     }
 
-    private void Move() {
-        Vector3 moveTo = Vector3.zero;
-        if ( Input.GetKeyDown(KeyCode.UpArrow) ) {
-            moveTo = new Vector3(0, unitMove, 0);
-        } else if ( Input.GetKeyDown(KeyCode.DownArrow) ) {
-            moveTo = new Vector3(0, -unitMove, 0);
-        } else if ( Input.GetKeyDown(KeyCode.LeftArrow) ) {
-            moveTo = new Vector3(-unitMove, 0, 0);
-        } else if ( Input.GetKeyDown(KeyCode.RightArrow) ) {
-            moveTo = new Vector3(unitMove, 0, 0);
-        } 
+    private void Move()
+    {
+        moveDirection = Vector3.zero;
+        Sprite newSprite = spriteRenderer.sprite;
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            moveDirection = Vector3.up;
+            newSprite = spriteUp;
+        }
+        else if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            moveDirection = Vector3.down;
+            newSprite = spriteDown;
+        }
+        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            moveDirection = Vector3.left;
+            newSprite = spriteLeft;
+        }
+        else if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            moveDirection = Vector3.right;
+            newSprite = spriteRight;
+        }
 
-        Vector3 nextPosition = transform.position + moveTo;
+        spriteRenderer.sprite = newSprite;
 
-        // 다음 이동할 구역이 지정 구역을 벗어난 경우 
-        nextPosition.x = Mathf.Clamp(nextPosition.x, minX, maxX);
-        nextPosition.y = Mathf.Clamp(nextPosition.y, minY, maxY);
-        transform.position = nextPosition;
+        if (moveDirection != Vector3.zero)
+        {
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, moveDirection, checkDistance, obstacleLayer);
 
-        // if ( minX <= nextPosition.x && nextPosition.x <= maxX && minY <= nextPosition.y && nextPosition.y <= maxY ) {
-        //     transform.position = nextPosition;
-        // }
+            if (hit.collider == null)
+            {
+                Vector3 nextPosition = transform.position + moveDirection;
+
+                if (minX <= nextPosition.x && nextPosition.x <= maxX && minY <= nextPosition.y && nextPosition.y <= maxY)
+                {
+                    transform.position = nextPosition;
+                }
+            }
+        }
     }
 
-    private void OnTriggerEnter2D(Collider2D other) {
-        if (other.gameObject.CompareTag("Obstacle")) {
-            Debug.Log("장애물과 충돌: " + other.gameObject.name );
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Obstacle"))
+        {
+            HandleObstacleTrigger();
             // GameManager.instance.hasCollided(other.gameObject);
-        } else if (other.gameObject.CompareTag("Item")) {
-            Debug.Log("아이템과 충돌: " + other.gameObject.name );
+        }
+        else if (other.gameObject.CompareTag("Item"))
+        {
+            HandleItemTrigger();
             // GameManager.instance.GetItem(other.gameObject);
         }
     }
 
-    public void UpgradeItem(Item item) {
+    private void HandleObstacleTrigger()
+    {
+        Debug.Log("장애물과 충돌!");
+    }
+
+    private void HandleItemTrigger()
+    {
+        Debug.Log("아이템과 충돌!");
+    }
+
+    public void UpgradeItem(Item item)
+    {
         string itemName = item.GetItemName();
-        if ( itemName == "Coin" ) {
+        if (itemName == "Coin")
+        {
             Debug.Log("동전 획득");
-        } else if ( itemName == "Magnet" ) {
+        }
+        else if (itemName == "Magnet")
+        {
             Debug.Log("자석 획득");
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Vector3 direction = moveDirection != Vector3.zero ? moveDirection : Vector3.up;
+        Gizmos.DrawRay(transform.position, direction * checkDistance);
     }
 }

@@ -7,37 +7,44 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance = null;
-    
+
     [SerializeField]
     private GameObject gameOverPanel;
     [HideInInspector]
     public bool isGameOver = false;
 
-    void Awake() {
-        if (instance == null) {
+    void Awake()
+    {
+        if (instance == null)
+        {
             instance = this;
         }
     }
 
-    public void SetGameOver() {
+    public void SetGameOver()
+    {
         isGameOver = true;
-        
+
         Invoke(nameof(ShowGameOverPanel), 1f);
     }
 
-    void ShowGameOverPanel() {
+    void ShowGameOverPanel()
+    {
         gameOverPanel.SetActive(true);
     }
 
-    public void hasCollided(GameObject gameObject) {
-        
+    public void hasCollided(GameObject gameObject)
+    {
+
     }
 
-    public void GetItem(GameObject gameObject) {
+    public void GetItem(GameObject gameObject)
+    {
         Character character = FindObjectOfType<Character>();
         Item item = FindAnyObjectByType<Item>();
 
-        if (character != null) {
+        if (character != null)
+        {
             character.UpgradeItem(item);
         }
     }
