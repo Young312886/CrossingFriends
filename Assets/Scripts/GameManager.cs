@@ -2,17 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using TMPro;
+
+
 public class GameManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public static GameManager instance = null;
+    [SerializeField]
+    private TextMeshProUGUI scoreText;
+    private int coin = 0;
+    void Awake()
     {
-        
+        if (instance == null)
+        {
+            instance = this;
+        }
     }
-
-    // Update is called once per frame
-    void Update()
+    public void IncreaseCoin()
     {
-        
+        coin += 1;
+        scoreText.SetText(coin.ToString());
     }
 }
