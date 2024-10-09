@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6263079931301158129
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5310365998601390609}
+  - component: {fileID: 9000911538568597730}
+  m_Layer: 0
+  m_Name: ObstacleSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5310365998601390609
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6263079931301158129}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -5, y: 3.62, z: 0.0076121427}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9000911538568597730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6263079931301158129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8869f532693d918439d15a3882686c95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 1
+  cars:
+  - {fileID: 2274904777073716615, guid: 950771e374f80834b94c966a48e78401, type: 3}
+  - {fileID: 1477208949567110198, guid: 18ab196a69addba46b6f473a7b7702e5, type: 3}
+  - {fileID: 3505005797923530632, guid: dd02a2b91b400d343aea366642f5c548, type: 3}
+  - {fileID: 7376402678016442294, guid: 9af51c4a3f104154883aada072fccc30, type: 3}
+  - {fileID: 3995445589050274149, guid: dfa1239a6ef9ca440b03f3fdbcf756c9, type: 3}
+  - {fileID: 8452704079297567501, guid: 4e554ab49497bf544839d6890959d6af, type: 3}
+  - {fileID: 5556119615099209538, guid: 4e1eaabda15700e4e96bc325f61e2995, type: 3}
+  - {fileID: 7858975729167572664, guid: 6bd725769ffbaad43aa4dacbb7aaa35f, type: 3}
+  spawnInterval: 1.5
