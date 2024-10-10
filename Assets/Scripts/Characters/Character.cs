@@ -95,24 +95,34 @@ public class Character : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Obstacle"))
+        if (other.gameObject.CompareTag("FixedObstacle"))
         {
-            HandleObstacleTrigger();
-            // GameManager.instance.hasCollided(other.gameObject);
+            // HandleFixedObstacleTrigger(other.gameObject);
+        }
+        else if ( other.gameObject.CompareTag("MovingObstacle") )
+        {
+            HandleMovingObstacleTrigger(other.gameObject);
         }
         else if (other.gameObject.CompareTag("Item"))
         {
-            HandleItemTrigger();
-            // GameManager.instance.GetItem(other.gameObject);
+            HandleItemTrigger(other.gameObject);
         }
     }
 
-    private void HandleObstacleTrigger()
+    private void HandleFixedObstacleTrigger(GameObject obstacle)
     {
-        Debug.Log("장애물과 충돌!");
+        // 현재로서는 충돌하지 않는다.
+        Debug.Log("고정된 장애물과 충돌!");
+    }
+    
+    private void HandleMovingObstacleTrigger(GameObject obstacle)
+    {
+        Debug.Log("움직이는 장애물과 충돌!");
+        Destroy(gameObject);
+        ScoreManager.instance.SetGameOver();
     }
 
-    private void HandleItemTrigger()
+    private void HandleItemTrigger(GameObject item)
     {
         Debug.Log("아이템과 충돌!");
     }
